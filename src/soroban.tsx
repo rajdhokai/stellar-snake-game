@@ -5,9 +5,9 @@ import {
   Networks,
   BASE_FEE,
   nativeToScVal,
-  Address,
+  // Address,
   xdr,
-  Transaction,
+  // Transaction,
 } from "@stellar/stellar-sdk";
 import { userSignTransaction } from "../src/Freighter";
 
@@ -16,7 +16,7 @@ const rpcUrl = "https://soroban-testnet.stellar.org";
 const contractAddress = "CBGPKZU7CNVUITUZO5SJXMBIMVHZPU2PIOJAM7MBWBPEITKUY2YLEJRB";
 
 // Convert Account Address to ScVal form
-const accountToScVal = (account: string) => new Address(account).toScVal();
+// const accountToScVal = (account: string) => new Address(account).toScVal();
 
 // Convert String to ScVal form
 const stringToScValString = (value: string) => nativeToScVal(value);
