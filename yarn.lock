@@ -183,7 +183,7 @@
 
 "@creit-tech/xbull-wallet-connect@github:Creit-Tech/xBull-Wallet-Connect":
   version "0.2.0"
-  resolved "git+ssh://git@github.com/Creit-Tech/xBull-Wallet-Connect.git#a93e2e0d97c61bbd83fedcca0c71feef9f28b2d3"
+  resolved "https://registry.npmjs.org/avsc/-/avsc-5.4.7.tgz"
   dependencies:
     rxjs "^7.5.5"
     tweetnacl "^1.0.3"
