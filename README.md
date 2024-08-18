@@ -1,12 +1,4 @@
-# Snake Game 🐍
-
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-
-![Snake Game Demo](./README_ASSETS/snake-game-demo.gif)
-
-A classic Snake game built using React.js, HTML Canvas, and TypeScript.
-
+# Snake Game 
 ## Table of Contents
 
 - [Demo](#demo)
@@ -15,9 +7,6 @@ A classic Snake game built using React.js, HTML Canvas, and TypeScript.
 - [Game Controls](#game-controls)
 - [License](#license)
 
-## Demo
-
-You can play the game online at [Snake Game Demo](https://snakes-game-nine.vercel.app/).
 
 ## Features
 
@@ -38,7 +27,7 @@ To run the game locally, follow these steps:
 1. Clone this repository:
 
    ```shell
-   git clone git@github.com:<your-user-name>/snakes-game.git
+   git clone git@github.com:<your-user-name>/stellar-snakes-game.git
    ```
 
 2. Navigate to the project directory:
@@ -79,7 +68,3 @@ Use the arrow keys or `W`,`A`,`S`,`D` keys on your keyboard to control the snake
 Others:
 
 - To **Pause** the game - Press `esc` or click anywhere the screen
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
