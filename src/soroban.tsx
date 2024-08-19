@@ -7,16 +7,17 @@ import {
   nativeToScVal,
   // Address,
   xdr,
-  // Transaction,
+  // Transaction
 } from "@stellar/stellar-sdk";
 import { userSignTransaction } from "../src/Freighter";
 
 const rpcUrl = "https://soroban-testnet.stellar.org";
 
-const contractAddress = "CBGPKZU7CNVUITUZO5SJXMBIMVHZPU2PIOJAM7MBWBPEITKUY2YLEJRB";
+const contractAddress =
+  "CBGPKZU7CNVUITUZO5SJXMBIMVHZPU2PIOJAM7MBWBPEITKUY2YLEJRB";
 
 // Convert Account Address to ScVal form
-// const accountToScVal = (account: string) => new Address(account).toScVal();
+// const accountToScVal = (account: string) => new Address(account).toScVal()
 
 // Convert String to ScVal form
 const stringToScValString = (value: string) => nativeToScVal(value);
@@ -30,7 +31,7 @@ const params = {
 };
 
 // Function to interact with the smart contract
- async function contractInt(
+async function contractInt(
   caller: string,
   functName: string,
   values: xdr.ScVal[] | xdr.ScVal | null
@@ -63,10 +64,12 @@ const params = {
   const tx = TransactionBuilder.fromXDR(signedTx, Networks.TESTNET);
 
   try {
-    const sendTx: any= await provider.sendTransaction(tx).catch((err: Error) => {
-      console.error("Catch-1", err);
-      return err;
-    });
+    const sendTx: any = await provider
+      .sendTransaction(tx)
+      .catch((err: Error) => {
+        console.error("Catch-1", err);
+        return err;
+      });
     if (sendTx.errorResult) {
       throw new Error("Unable to submit transaction");
     }
@@ -90,18 +93,19 @@ const params = {
 
 export async function addPlayer(
   caller: string,
-  playerId: number,
   playerName: string,
   initialScore: number
 ): Promise<xdr.ScVal | undefined> {
-  const playerIdScVal = numberToU64(playerId);
   const playerNameScVal = stringToScValString(playerName);
+  const pubKeyScVal = stringToScValString(caller);
   const initialScoreScVal = numberToU64(initialScore);
 
-  const values = [playerIdScVal, playerNameScVal, initialScoreScVal];
+  const values = [playerNameScVal, pubKeyScVal, initialScoreScVal];
 
   try {
-    const result = await contractInt(caller, "add_player", values);
+    const result: any = await contractInt(caller, "add_player", values);
+    let playerId = Number(result?._value?._value);
+
     console.log(`Player ${playerName} with ID ${playerId} has been added!`);
     return result;
   } catch (error) {
@@ -116,7 +120,11 @@ export async function getPlayerById(
   const playerIdScVal = numberToU64(playerId);
 
   try {
-    const result = await contractInt(caller, "get_player_by_id", playerIdScVal) as any;
+    const result = (await contractInt(
+      caller,
+      "get_player_by_id",
+      playerIdScVal
+    )) as any;
 
     const id = Number(result?._value[0]?._attributes?.val?._value);
     const name = result?._value[1]?._attributes?.val?._value?.toString();
@@ -148,15 +156,15 @@ export async function updateScore(
   }
 }
 
-export default async function getAllPlayers(
+export async function getAllPlayers(
   caller: string
 ): Promise<Array<{ id: number; name: string; score: number }> | undefined> {
   try {
-    const result = await contractInt(caller, "get_all_players", null) as any;
+    const result = (await contractInt(caller, "get_all_players", null)) as any;
     const players = result?._value.map((player: any) => ({
       id: Number(player?._value[0]?._attributes?.val?._value),
       name: player?._value[1]?._attributes?.val?._value?.toString(),
-      score: Number(player?._value[2]?._attributes?.val?._value),
+      score: Number(player?._value[3]?._attributes?.val?._value),
     }));
 
     console.log(players);
@@ -167,7 +175,10 @@ export default async function getAllPlayers(
   }
 }
 
-export async function deletePlayer(caller: string, playerId: number): Promise<void> {
+export async function deletePlayer(
+  caller: string,
+  playerId: number
+): Promise<void> {
   const playerIdScVal = numberToU64(playerId);
 
   try {
@@ -177,4 +188,3 @@ export async function deletePlayer(caller: string, playerId: number): Promise<vo
     console.log("Unable to delete player. Please ensure the player exists.");
   }
 }
-
