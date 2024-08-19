@@ -1,6 +1,6 @@
 import { HIGH_SCORE_KEY } from "./SnakesGame";
-import { updateScore, getAllPlayers } from '../utils/Soroban';
-import { useState, useEffect } from 'react';
+import { updateScore, getAllPlayers } from "../utils/Soroban";
+import { useState, useEffect } from "react";
 
 interface GameOverModalProps {
   finalScore: number;
@@ -43,7 +43,7 @@ export default function GameOverModal({
         setIsLoading(true); // Start loading
 
         // Get player data from local storage
-        const playerData = localStorage.getItem('player');
+        const playerData = localStorage.getItem("player");
         if (playerData) {
           const { pubKey, id, score } = JSON.parse(playerData);
 
@@ -55,21 +55,50 @@ export default function GameOverModal({
             await updateScore(pubKey, id, finalScore);
 
             // Update the player object in local storage with the new score
-            const updatedPlayerData = { ...JSON.parse(playerData), score: finalScore };
-            localStorage.setItem('player', JSON.stringify(updatedPlayerData));
+            const updatedPlayerData = {
+              ...JSON.parse(playerData),
+              score: finalScore,
+            };
+            localStorage.setItem("player", JSON.stringify(updatedPlayerData));
           }
 
           // Fetch all players after updating the score
-          const players:any = await getAllPlayers(pubKey);
+          const players: any = await getAllPlayers(pubKey);
 
           // Sort players by score in descending order
-          const sortedPlayers = players.sort((a: Player, b: Player) => b.score - a.score);
+          const sortedPlayers = players.sort(
+            (a: Player, b: Player) => b.score - a.score
+          );
           setAllPlayers(sortedPlayers); // Store sorted players data in state
         } else {
-          console.error('No player data found in local storage.');
+          console.error("No player data found in local storage.");
         }
       } catch (error) {
-        console.error('Failed to update score or fetch players:', error);
+        console.error("Failed to update score or fetch players:", error);
+      } finally {
+        setIsLoading(false); // End loading
+      }
+    } else {
+      try {
+        setIsLoading(true);
+        const pubKey = localStorage.getItem("publicKey");
+
+        if (!pubKey) {
+          alert("Please connect your Freighter wallet.");
+          setIsLoading(false);
+          return;
+        }
+        // Fetch all players after updating the score
+        const players: any = await getAllPlayers(pubKey);
+
+        // Sort players by score in descending order
+        const sortedPlayers = players.sort(
+          (a: Player, b: Player) => b.score - a.score
+        );
+        setAllPlayers(sortedPlayers); // Store sorted players data in state
+        setIsLoading(false); // End loading
+      } catch (error) {
+        console.error("Failed to Fetch all players:", error);
       } finally {
         setIsLoading(false); // End loading
       }
@@ -92,12 +121,10 @@ export default function GameOverModal({
           <p className="congratulate">🏆 You beat the high score! 🏆</p>
         )}
         <p className="click-dir">(Click anywhere to continue)</p>
-
         {/* Display all players in a table sorted by score */}
         {allPlayers.length > 0 && (
-          <div className="players-table">
-            <h3>All Players</h3>
-            <table>
+            <table id="players">
+              <caption>All players</caption>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -115,7 +142,6 @@ export default function GameOverModal({
                 ))}
               </tbody>
             </table>
-          </div>
         )}
       </div>
     </div>
