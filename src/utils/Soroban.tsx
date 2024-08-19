@@ -95,7 +95,7 @@ export async function addPlayer(
   caller: string,
   playerName: string,
   initialScore: number
-): Promise<xdr.ScVal | undefined> {
+): Promise<any | undefined> {
   const playerNameScVal = stringToScValString(playerName);
   const pubKeyScVal = stringToScValString(caller);
   const initialScoreScVal = numberToU64(initialScore);
@@ -107,7 +107,7 @@ export async function addPlayer(
     let playerId = Number(result?._value?._value);
 
     console.log(`Player ${playerName} with ID ${playerId} has been added!`);
-    return result;
+    return playerId;
   } catch (error) {
     console.log("Unable to add player. Please check the provided details.");
   }

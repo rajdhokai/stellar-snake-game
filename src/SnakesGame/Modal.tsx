@@ -44,6 +44,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
           display: flex;
           justify-content: center;
           align-items: center;
+          z-index: 9;
         }
         .modal-content {
           background: white;
