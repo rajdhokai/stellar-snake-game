@@ -1,23 +1,6 @@
-// import SnakesGame from "./SnakesGame";
-// import getAllPlayers from "../src/soroban";
-
-// function App() {
-//   const fetchFeedings = async () => {
-//     try {      
-//       const response = await getAllPlayers('GBXEE2WQVDPCQDYWJKDEHPHCFLBIG33IGQQI2AQ47XJ4SZ46BKAEB7BV');
-//       console.log(response);
-//     } catch{
-
-//     }
-//   }
-//   return <><button onClick={()=> fetchFeedings()}>test</button>
-//   <SnakesGame /></>;
-// }
-
-// export default App;
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SnakesGame from './SnakesGame';
-import { addPlayer, getAllPlayers } from './soroban';
+import { addPlayer, getAllPlayers } from './utils/Soroban';
 import Modal from './SnakesGame/Modal';
 
 function App() {
